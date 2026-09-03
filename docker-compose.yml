@@ -1,0 +1,22 @@
+services:
+  mysql-db:
+    image: mysql:8.0
+    container_name: mysql_product_db
+    environment:
+      MYSQL_DATABASE: product_assessment
+      MYSQL_ROOT_PASSWORD: Poppingsoul
+    ports:
+      - "3306:3306"
+    restart: always
+
+  app:
+    build: .
+    container_name: product_assessment_app
+    ports:
+      - "8888:8888"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/product_assessment?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=Poppingsoul
+    depends_on:
+      - mysql-db
